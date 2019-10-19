@@ -1,5 +1,27 @@
-<nav class="navbar">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Recipe book</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Recipe</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Shopping list</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav">
+      <li class="nav-item" ngbDropdown display="dynamic" placement="bottom-right">
+        <a class="nav-link" style="cursor: pointer" ngbDropdownToggle id="navbarDropdown3" role="button">
+          Manage
+        </a>
+        <div ngbDropdownMenu aria-labelledby="navbarDropdown3" class="dropdown-menu">
+          <a class="dropdown-item" href="#">Save data</a>
+          <a class="dropdown-item" href="#">Fetch data</a>
+        </div>
+      </li>
+    </ul>
   </div>
 </nav>
