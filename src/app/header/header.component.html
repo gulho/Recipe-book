@@ -6,20 +6,20 @@
   <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
-        <a class="nav-link" href="#" (click)="onSelect('recipe')">Recipe</a>
+        <a class="nav-link" routerLink="/recipes" routerLinkActive="active">Recipe</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#" (click)="onSelect('shopping-list')">Shopping list</a>
+        <a class="nav-link" routerLink="/shopping-list" routerLinkActive="active">Shopping list</a>
       </li>
     </ul>
-    <div class="dropdown" appDropdown>
-        <a class="nav-link" style="cursor: pointer" role="button" href="#">
+    <span class="dropdown" appDropdown>
+        <span class="nav-link" style="cursor: pointer" role="button">
           Manage
-        </a>
+        </span>
         <ul class="dropdown-menu">
-          <li class="dropdown-item" href="#">Save data</li>
-          <li class="dropdown-item" href="#">Fetch data</li>
+          <li class="dropdown-item">Save data</li>
+          <li class="dropdown-item">Fetch data</li>
         </ul>
-    </div>
+    </span>
   </div>
 </nav>
