@@ -1,21 +1,22 @@
 <div class="row">
   <div class="col-sm-12">
-    <form>
+    <form [formGroup]="shoppingForm" (ngSubmit)="saveIngredients()">
       <div class="row">
         <div class="col-sm-5 form-group">
           <label for="name">Name</label>
-          <input type="text" id="name" class="form-control" #nameInput>
+          <input type="text" id="name" class="form-control" formControlName="name">
         </div>
         <div class="col-sm-2 form-group">
           <label for="amount">Amount</label>
-          <input type="number" id="amount" class="form-control" #amountInput>
+          <input type="number" id="amount" class="form-control" formControlName="amount">
         </div>
       </div>
       <div class="row">
         <div class="col-sm-12">
-          <button class="btn btn-success m-sm-2" type="button" (click)="addItem()">Add</button>
-          <button class="btn btn-danger m-sm-2" type="button">Delete</button>
-          <button class="btn btn-primary m-sm-2" type="reset">Clear</button>
+          <button class="btn btn-success m-sm-2" type="submit"
+                  [disabled]="!this.shoppingForm.valid">{{editMode ? 'Update' : 'Add'}}</button>
+          <button class="btn btn-danger m-sm-2" type="button" (click)="onDelete()" *ngIf="editMode">Delete</button>
+          <button class="btn btn-primary m-sm-2" type="reset" (click)="onClear()">Clear</button>
         </div>
       </div>
     </form>
