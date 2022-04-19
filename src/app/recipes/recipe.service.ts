@@ -11,26 +11,37 @@ export class RecipeService {
   constructor(private shoppingListService: ShoppingListService) {
   }
 
-  private recipes: Recipe[] = [
-    new Recipe(
-      'A test Recipe',
-      'Recipe descrition',
-      'https://www.simplyrecipes.com/thmb/RheeF949ewwGy7pxQQNt5v63Oi0=/720x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/Simply-Recipes-Homemade-Pizza-Dough-Lead-Shot-1c-c2b1885d27d4481c9cfe6f6286a64342.jpg',
-      [
-        new Ingredient("French Fries", 2),
-        new Ingredient("Meat", 1)
-      ]), new Recipe(
-      'A test Recipe2',
-      'Recipe descrition2',
-      'https://www.simplyrecipes.com/thmb/RheeF949ewwGy7pxQQNt5v63Oi0=/720x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/Simply-Recipes-Homemade-Pizza-Dough-Lead-Shot-1c-c2b1885d27d4481c9cfe6f6286a64342.jpg',
-      [
-        new Ingredient("French Fries", 1),
-        new Ingredient("Meat", 3)
-      ])
-  ];
+  // private recipes: Recipe[] = [
+  //   new Recipe(
+  //     'A test Recipe',
+  //     'Recipe descrition',
+  //     'https://www.simplyrecipes.com/thmb/RheeF949ewwGy7pxQQNt5v63Oi0=/720x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/Simply-Recipes-Homemade-Pizza-Dough-Lead-Shot-1c-c2b1885d27d4481c9cfe6f6286a64342.jpg',
+  //     [
+  //       new Ingredient("French Fries", 2),
+  //       new Ingredient("Meat", 1)
+  //     ]), new Recipe(
+  //     'A test Recipe2',
+  //     'Recipe descrition2',
+  //     'https://www.simplyrecipes.com/thmb/RheeF949ewwGy7pxQQNt5v63Oi0=/720x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/Simply-Recipes-Homemade-Pizza-Dough-Lead-Shot-1c-c2b1885d27d4481c9cfe6f6286a64342.jpg',
+  //     [
+  //       new Ingredient("French Fries", 1),
+  //       new Ingredient("Meat", 3)
+  //     ])
+  // ];
 
-  public getRecipeById(id: number) {
+  private recipes: Recipe[] = [];
+
+  public getRecipes(): Recipe[] {
+    return this.recipes.slice();
+  }
+
+  public getRecipeById(id: number): Recipe {
     return this.recipes[id];
+  }
+
+  public setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.updateRecipes();
   }
 
   public addIngredientsToShoppingList(ingredients: Ingredient[]) {
@@ -47,12 +58,12 @@ export class RecipeService {
     this.updateRecipes();
   }
 
-  removeRecipe(index: number) {
+  public removeRecipe(index: number): void {
     this.recipes.splice(index, 1);
     this.updateRecipes();
   }
 
-  public updateRecipes() {
+  public updateRecipes(): void {
     this.recipeChanged.next(this.recipes.slice());
   }
 }
