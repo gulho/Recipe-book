@@ -4,15 +4,23 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+    <ul class="navbar-nav me-auto mt-2 mt-lg-0">
       <li class="nav-item">
         <a class="nav-link" routerLink="/recipes" routerLinkActive="active">Recipe</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!isAuthenticated">
+        <a class="nav-link" routerLink="/auth" routerLinkActive="active">Authentication</a>
+      </li>
+      <li class="nav-item" *ngIf="isAuthenticated">
         <a class="nav-link" routerLink="/shopping-list" routerLinkActive="active">Shopping list</a>
       </li>
     </ul>
-    <span class="dropdown" appDropdown>
+    <ul class="navbar-nav me-auto" *ngIf="isAuthenticated">
+      <li class="nav-item">
+        <a class="nav-link" (click)="onLogout()">Log out</a>
+      </li>
+      <li class="nav-item">
+      <span class="dropdown" appDropdown>
         <span class="nav-link" style="cursor: pointer" role="button">
           Manage
         </span>
@@ -20,6 +28,8 @@
           <li class="dropdown-item" (click)="onSaveData()">Save data</li>
           <li class="dropdown-item" (click)="onFetchData()">Fetch data</li>
         </ul>
-    </span>
+      </span>
+      </li>
+    </ul>
   </div>
 </nav>
