@@ -1,6 +1,6 @@
+<ng-template appPlaceholder></ng-template>
 <div class="row">
   <div class="col-md-4">
-    <app-alert *ngIf="error != null" [message]="error" (close)="onHandleError()"></app-alert>
     <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
       <div class="mb-3">
         <label class="form-label" for="email">E-mail</label>
