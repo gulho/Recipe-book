@@ -3,6 +3,7 @@ import {DropdownDirective} from "./dropdowsn.derective";
 import {AlertComponent} from "./alert/alert.component";
 import {PlaceholderDirective} from "./placeholder/placeholder.directive";
 import {CommonModule} from "@angular/common";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -11,13 +12,15 @@ import {CommonModule} from "@angular/common";
     PlaceholderDirective
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   exports: [
     DropdownDirective,
     AlertComponent,
     PlaceholderDirective,
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule {}
