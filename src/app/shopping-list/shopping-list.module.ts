@@ -2,16 +2,16 @@ import {NgModule} from "@angular/core";
 import {ShoppingListComponent} from "./shopping-list.component";
 import {ShoppingEditComponent} from "./shopping-edit/shopping-edit.component";
 import {RouterModule} from "@angular/router";
-import {CommonModule} from "@angular/common";
 import {ShoppingListRoutingModule} from "./shopping-list.routing.module";
 import {ReactiveFormsModule} from "@angular/forms";
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   declarations: [
     ShoppingListComponent,
     ShoppingEditComponent,
   ],
-  imports: [RouterModule, ShoppingListRoutingModule, CommonModule, ReactiveFormsModule]
+  imports: [RouterModule, ShoppingListRoutingModule, ReactiveFormsModule, SharedModule]
 })
 export class ShoppingListModule {
 

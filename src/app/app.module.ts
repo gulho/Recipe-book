@@ -21,10 +21,7 @@ import {ShoppingListModule} from "./shopping-list/shopping-list.module";
   declarations: [
     AppComponent,
     HeaderComponent,
-    DropdownDirective,
-    AuthComponent,
-    AlertComponent,
-    PlaceholderDirective
+    AuthComponent
   ],
   imports: [
     BrowserModule,
