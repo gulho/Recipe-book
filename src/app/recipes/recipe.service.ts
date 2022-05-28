@@ -1,33 +1,18 @@
 import {Recipe} from "./recipe.model";
 import {Injectable} from "@angular/core";
 import {Ingredient} from "../shared/ingridients.model";
-import {ShoppingListService} from "../shopping-list/shoping-list.service";
 import {Subject} from "rxjs";
+import {Store} from "@ngrx/store";
+
+import * as ShoppingListActions from "../shopping-list/store/shopping-list.actions";
+import * as fromShoppingList from "../shopping-list/store/shopping-list.reducer";
 
 @Injectable()
 export class RecipeService {
   public recipeChanged = new Subject<Recipe[]>();
 
-  constructor(private shoppingListService: ShoppingListService) {
+  constructor(private store: Store<fromShoppingList.AppState>) {
   }
-
-  // private recipes: Recipe[] = [
-  //   new Recipe(
-  //     'A test Recipe',
-  //     'Recipe descrition',
-  //     'https://www.simplyrecipes.com/thmb/RheeF949ewwGy7pxQQNt5v63Oi0=/720x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/Simply-Recipes-Homemade-Pizza-Dough-Lead-Shot-1c-c2b1885d27d4481c9cfe6f6286a64342.jpg',
-  //     [
-  //       new Ingredient("French Fries", 2),
-  //       new Ingredient("Meat", 1)
-  //     ]), new Recipe(
-  //     'A test Recipe2',
-  //     'Recipe descrition2',
-  //     'https://www.simplyrecipes.com/thmb/RheeF949ewwGy7pxQQNt5v63Oi0=/720x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/Simply-Recipes-Homemade-Pizza-Dough-Lead-Shot-1c-c2b1885d27d4481c9cfe6f6286a64342.jpg',
-  //     [
-  //       new Ingredient("French Fries", 1),
-  //       new Ingredient("Meat", 3)
-  //     ])
-  // ];
 
   private recipes: Recipe[] = [];
 
@@ -45,7 +30,7 @@ export class RecipeService {
   }
 
   public addIngredientsToShoppingList(ingredients: Ingredient[]) {
-    this.shoppingListService.addIngredients(ingredients);
+    this.store.dispatch(new ShoppingListActions.AddIngredients(ingredients));
   }
 
   public addRecipe(recipe: Recipe): void {
