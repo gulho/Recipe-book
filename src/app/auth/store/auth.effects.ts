@@ -3,13 +3,27 @@ import {Actions, createEffect, ofType} from "@ngrx/effects";
 import * as AuthActions from "./auth.actions";
 import {catchError, map, of, switchMap, tap} from "rxjs";
 import {environment} from "../../../environments/environment";
-import {AuthResponseData} from "../auth.service";
+import {AuthService} from "../auth.service";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Router} from "@angular/router";
+import {User} from "../user.model";
+
+const USER_DATA = 'userData';
+
+export interface AuthResponseData {
+  idToken: string;
+  email: string;
+  refreshToken: string;
+  expiresIn: string;
+  localId: string;
+  registered?: boolean
+}
 
 const handleAuthentication = (email: string, localId: string, idToken: string, expiresIn: number) => {
   const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+  const user = new User(email, localId, idToken, expirationDate);
+  localStorage.setItem(USER_DATA, JSON.stringify(user));
   return new AuthActions.Authenticate({
     email: email,
     id: localId,
@@ -62,6 +76,7 @@ export class AuthEffects {
           }
         )
         .pipe(
+          tap(resData => this.service.setAutoLogoutTimer(+resData.expiresIn * 1000)),
           map(resData => handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn)),
           catchError(error => handleError(error))
         )
@@ -83,6 +98,7 @@ export class AuthEffects {
           {params: {key: environment.firebaseApiKey}}
         )
         .pipe(
+          tap(resData => this.service.setAutoLogoutTimer(+resData.expiresIn * 1000)),
           map(resData => handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn)),
           catchError(error => handleError(error))
         )
@@ -92,11 +108,46 @@ export class AuthEffects {
 
   authSuccess = createEffect(() => {
     return this.actions$.pipe(
-      ofType(AuthActions.AUTHENTICATE, AuthActions.LOGOUT),
-      tap(() => this.router.navigate(['/auth']))
+      ofType(AuthActions.AUTHENTICATE),
+      tap(() => this.router.navigate(['/']))
     );
   }, {dispatch: false});
 
-  constructor(private actions$: Actions, private http: HttpClient, private router: Router) {
+  authLogout = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.LOGOUT),
+      tap(() => {
+        this.service.clearLogoutTimer();
+        localStorage.removeItem(USER_DATA);
+        this.router.navigate(['/']);
+      })
+    );
+  }, {dispatch: false});
+
+  autoLogin = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.AUTHENTICATE_AUTO),
+      map(() => {
+        const userData: { email: string, id: string, _token: string, _tokenExpirationDate: string } = JSON.parse(localStorage.getItem(USER_DATA));
+        if (!userData) {
+          return {type: "DUMMY"};
+        }
+        const loadedUser = new User(userData.email, userData.id, userData._token, new Date(userData._tokenExpirationDate));
+        if (loadedUser.token) {
+          const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
+          this.service.setAutoLogoutTimer(expirationDuration)
+          return new AuthActions.Authenticate({
+            email: loadedUser.email,
+            id: loadedUser.id,
+            token: loadedUser.token,
+            expirationDate: new Date(userData._tokenExpirationDate)
+          })
+        }
+        return {type: "DUMMY"};
+      })
+    );
+  });
+
+  constructor(private actions$: Actions, private http: HttpClient, private router: Router, private service: AuthService) {
   }
 }

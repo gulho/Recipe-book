@@ -1,8 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "./auth.service";
 import {Subscription} from "rxjs";
-import {Router} from "@angular/router";
 import {AlertComponent} from "../shared/alert/alert.component";
 import {PlaceholderDirective} from "../shared/placeholder/placeholder.directive";
 
@@ -24,7 +22,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   private closeSub: Subscription;
   private storeSub: Subscription;
 
-  constructor(private authService: AuthService, private router: Router, private store: Store<fromApp.AppState>) {
+  constructor(private store: Store<fromApp.AppState>) {
   }
 
   ngOnInit(): void {
