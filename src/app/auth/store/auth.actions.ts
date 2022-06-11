@@ -10,7 +10,7 @@ export const SIGNUP_START = 'SIGNUP_START';
 export class Authenticate implements Action {
   readonly type = AUTHENTICATE;
 
-  constructor(public payload: { email: string, id: string, token: string, expirationDate: Date }) {
+  constructor(public payload: { email: string, id: string, token: string, expirationDate: Date, redirect: boolean }) {
   }
 }
 
@@ -43,4 +43,10 @@ export class AuthenticateAuto implements Action {
   readonly type = AUTHENTICATE_AUTO;
 }
 
-export type AuthType = Authenticate | Logout | LoginStart | AuthenticateFail| SignupStart | AuthenticateAuto;
+export type AuthType =
+  Authenticate
+  | Logout
+  | LoginStart
+  | AuthenticateFail
+  | SignupStart
+  | AuthenticateAuto;

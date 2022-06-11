@@ -6,13 +6,14 @@ import {Store} from "@ngrx/store";
 
 import * as fromApp from "../store/app.reducer";
 import * as AuthActions from "../auth/store/auth.actions";
+import * as RecipeActions from "../recipes/store/recipe.action";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit, OnDestroy{
+export class HeaderComponent implements OnInit, OnDestroy {
 
   private authSub: Subscription;
   public isAuthenticated = false;
@@ -33,7 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
   }
 
   public onFetchData(): void {
-    this.dataStorageService.fetchData().subscribe();
+    this.store.dispatch(new RecipeActions.FetchRecipes());
   }
 
   public onLogout(): void {
