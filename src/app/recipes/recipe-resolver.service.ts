@@ -14,7 +14,11 @@ export class RecipeResolverService implements Resolve<Recipe[]> {
 
   resolve(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Observable<Recipe[]> | Promise<Recipe[]> | Recipe[] {
     let recipes: Recipe[];
-    this.store.dispatch(new RecipeActions.FetchRecipes());
+    this.store.select('recipes').subscribe(recipeState => {
+      if (recipeState.recipes.length === 0) {
+        this.store.dispatch(new RecipeActions.FetchRecipes());
+      }
+    });
     this.store.select('recipes').subscribe(recipesState => {
       recipes = recipesState.recipes;
     })
